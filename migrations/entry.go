@@ -5,7 +5,7 @@ import (
 	"log"
 	"sync"
 	"task/configs"
-	"task/models/account"
+	"task/models"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -29,7 +29,7 @@ func Migrate(db *configs.DBConfig) {
 		if err != nil {
 			log.Fatalf("Failed to connect to database: %v", err)
 		}
-		db.AutoMigrate(&account.User{})
+		db.AutoMigrate(&models.User{})
 
 		DB = db
 	})

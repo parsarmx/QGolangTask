@@ -7,8 +7,9 @@ import (
 )
 
 type Config struct {
-	DB   DBConfig
-	HTTP HttpConfig
+	DB    DBConfig
+	HTTP  HttpConfig
+	Redis RedisConfig
 }
 
 func NewConfig() *Config {
@@ -18,7 +19,8 @@ func NewConfig() *Config {
 	}
 
 	return &Config{
-		DB:   LoadDBConfig(),
-		HTTP: LoadHTTPConfig(),
+		DB:    LoadDBConfig(),
+		HTTP:  LoadHTTPConfig(),
+		Redis: LoadRedisConfig(),
 	}
 }
