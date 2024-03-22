@@ -8,9 +8,11 @@ import (
 )
 
 func ConfigureRoutes(server *s.Server) {
-	authControler := user.NewRegisterHandler(server)
+	registerHandler := user.NewRegisterHandler(server)
+	authHandler := user.NewAuthHandler(server)
 
 	server.Echo.Use(middleware.Logger())
 
-	server.Echo.POST("/register", authControler.Register)
+	server.Echo.POST("/register", registerHandler.Register)
+	server.Echo.POST("/login", authHandler.Login)
 }

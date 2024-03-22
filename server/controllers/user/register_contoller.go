@@ -29,7 +29,7 @@ func (registerHandler *RegisterHandler) Register(ctx echo.Context) error {
 	err := ctx.Bind(&req)
 	if req.Username == "" || req.Password == "" {
 		return responses.ErrorResponse(
-			ctx, http.StatusBadGateway, responses.INVALID_REQUEST_BODY,
+			ctx, http.StatusBadRequest, responses.INVALID_REQUEST_BODY,
 		)
 	}
 
