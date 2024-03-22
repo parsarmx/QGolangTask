@@ -61,5 +61,5 @@ func (authHandler *AuthHandler) Login(ctx echo.Context) error {
 		)
 	}
 
-	return responses.MessageResponse(ctx, http.StatusCreated, string(data))
+	return responses.MessageResponse(ctx, http.StatusOK, string(data))
 }
