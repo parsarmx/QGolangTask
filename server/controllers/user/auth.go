@@ -1,6 +1,7 @@
 package user
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"task/models"
@@ -45,7 +46,7 @@ func (registerHandler *RegisterHandler) Register(ctx echo.Context) error {
 	user, err := userService.RegisterUser(req)
 	if err != nil {
 		return responses.ErrorResponse(
-			ctx, http.StatusBadGateway, responses.FAILED_TO_CREATE_USER,
+			ctx, http.StatusBadRequest, responses.FAILED_TO_CREATE_USER,
 		)
 	}
 
@@ -58,10 +59,19 @@ func (registerHandler *RegisterHandler) Register(ctx echo.Context) error {
 		)
 	}
 
+	// generate success response
 	response := responses.RegisterResponse{
 		AcessToken:   access,
 		RefreshToken: refresh,
 		Status:       fmt.Sprintf("%v", http.StatusCreated),
 	}
-	return ctx.JSON(http.StatusCreated, response)
+
+	data, err := json.Marshal(&response)
+	if err != nil {
+		return responses.ErrorResponse(
+			ctx, http.StatusBadGateway, responses.FAILED_TO_MARSHAL,
+		)
+	}
+
+	return responses.MessageResponse(ctx, http.StatusCreated, string(data))
 }
