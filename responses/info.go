@@ -10,3 +10,8 @@ type CreatePostResponse struct {
 	Created bool   `json:"created"`
 	Status  string `json:"status"`
 }
+
+type UpdatePostResponse struct {
+	Updated bool   `json:"updated"`
+	Status  string `json:"status"`
+}

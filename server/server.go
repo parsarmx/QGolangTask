@@ -1,6 +1,7 @@
 package server
 
 import (
+	"fmt"
 	"task/configs"
 	"task/db"
 
@@ -26,5 +27,6 @@ func NewServer(cfg *configs.Config) *Server {
 }
 
 func (server *Server) Start(addr string) error {
+	fmt.Println(server.Echo.Start(":" + addr))
 	return server.Echo.Start(":" + addr)
 }
