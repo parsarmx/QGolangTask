@@ -8,21 +8,21 @@ import (
 
 func (postService *Service) GetAllPosts(ctx context.Context) []models.AllPost {
 
-	slugs, err := postService.Client.Keys(ctx, "*").Result()
+	keys, err := postService.Client.Keys(ctx, "*").Result()
 	if err != nil {
 		fmt.Println(err)
 		return nil
 	}
-	fmt.Println(slugs)
+
 	var posts []models.AllPost
 
-	for _, slug := range slugs {
-		value, err := postService.Client.Get(ctx, slug).Result()
+	for _, key := range keys {
+		value, err := postService.Client.Get(ctx, key).Result()
 		if err != nil {
 			fmt.Println(err)
 			return nil
 		}
-		posts = append(posts, models.AllPost{Slug: slug, Data: value})
+		posts = append(posts, models.AllPost{Key: key, Data: value})
 	}
 
 	return posts

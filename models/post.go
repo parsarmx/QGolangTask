@@ -11,7 +11,7 @@ type PostRequest struct {
 }
 
 type AllPost struct {
-	Slug string `json:"slug"`
+	Key  string `json:"key"`
 	Data string `json:"data"`
 }
 
