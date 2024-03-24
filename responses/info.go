@@ -5,3 +5,8 @@ type RegisterResponse struct {
 	RefreshToken string `json:"refresh_token"`
 	Status       string `json:"status"`
 }
+
+type CreatePostResponse struct {
+	Created bool   `json:"created"`
+	Status  string `json:"status"`
+}

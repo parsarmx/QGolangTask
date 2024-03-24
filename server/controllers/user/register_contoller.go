@@ -1,7 +1,6 @@
 package user
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"task/models"
@@ -14,15 +13,15 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type RegisterHandler struct {
+type RegisterController struct {
 	server *s.Server
 }
 
-func NewRegisterHandler(server *s.Server) *RegisterHandler {
-	return &RegisterHandler{server: server}
+func NewRegisterController(server *s.Server) *RegisterController {
+	return &RegisterController{server: server}
 }
 
-func (registerHandler *RegisterHandler) Register(ctx echo.Context) error {
+func (registerController *RegisterController) Register(ctx echo.Context) error {
 
 	// binding body
 	req := models.RegisterRequest{}
@@ -35,14 +34,14 @@ func (registerHandler *RegisterHandler) Register(ctx echo.Context) error {
 
 	// check if username exists or not
 	existsUser := models.User{}
-	userSelector := selectors.NewUserSelector(registerHandler.server.DB)
+	userSelector := selectors.NewUserSelector(registerController.server.DB)
 	userSelector.GetUserByUsername(&existsUser, req.Username)
 	if existsUser.ID != 0 {
 		return responses.ErrorResponse(ctx, http.StatusBadRequest, responses.USER_ALREADY_EXISTS)
 	}
 
 	// trying to create user
-	userService := user.NewUserService(registerHandler.server.DB)
+	userService := user.NewUserService(registerController.server.DB)
 	user, err := userService.RegisterUser(req)
 	if err != nil {
 		return responses.ErrorResponse(
@@ -51,7 +50,7 @@ func (registerHandler *RegisterHandler) Register(ctx echo.Context) error {
 	}
 
 	// generate token
-	tokenService := token.NewTokenService(registerHandler.server.Config)
+	tokenService := token.NewTokenService(registerController.server.Config)
 	access, refresh, err := tokenService.GenerateToken(user.Username, user.ID)
 	if err != nil {
 		return responses.ErrorResponse(
@@ -66,12 +65,5 @@ func (registerHandler *RegisterHandler) Register(ctx echo.Context) error {
 		Status:       fmt.Sprintf("%v", http.StatusCreated),
 	}
 
-	data, err := json.Marshal(&response)
-	if err != nil {
-		return responses.ErrorResponse(
-			ctx, http.StatusBadGateway, responses.FAILED_TO_MARSHAL,
-		)
-	}
-
-	return responses.MessageResponse(ctx, http.StatusCreated, string(data))
+	return responses.Response(ctx, http.StatusCreated, response)
 }

@@ -1,7 +1,6 @@
 package user
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"task/models"
@@ -14,15 +13,15 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-type AuthHandler struct {
+type AuthController struct {
 	server *s.Server
 }
 
-func NewAuthHandler(server *s.Server) *AuthHandler {
-	return &AuthHandler{server: server}
+func NewAuthController(server *s.Server) *AuthController {
+	return &AuthController{server: server}
 }
 
-func (authHandler *AuthHandler) Login(ctx echo.Context) error {
+func (authController *AuthController) Login(ctx echo.Context) error {
 	req := models.LoginRequest{}
 	err := ctx.Bind(&req)
 	if req.Username == "" || req.Password == "" {
@@ -33,13 +32,13 @@ func (authHandler *AuthHandler) Login(ctx echo.Context) error {
 	}
 	// check if username exists or not
 	user := models.User{}
-	userSelector := selectors.NewUserSelector(authHandler.server.DB)
+	userSelector := selectors.NewUserSelector(authController.server.DB)
 	userSelector.GetUserByUsername(&user, req.Username)
 	if user.ID == 0 || (bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password)) != nil) {
 		return responses.ErrorResponse(ctx, http.StatusBadRequest, responses.USER_DOES_NOT_EXISTS)
 	}
 
-	tokenService := token.NewTokenService(authHandler.server.Config)
+	tokenService := token.NewTokenService(authController.server.Config)
 	access, refresh, err := tokenService.GenerateToken(user.Username, user.ID)
 	if err != nil {
 		return responses.ErrorResponse(
@@ -54,12 +53,5 @@ func (authHandler *AuthHandler) Login(ctx echo.Context) error {
 		Status:       fmt.Sprintf("%v", http.StatusCreated),
 	}
 
-	data, err := json.Marshal(&response)
-	if err != nil {
-		return responses.ErrorResponse(
-			ctx, http.StatusBadGateway, responses.FAILED_TO_MARSHAL,
-		)
-	}
-
-	return responses.MessageResponse(ctx, http.StatusOK, string(data))
+	return responses.Response(ctx, http.StatusOK, response)
 }
