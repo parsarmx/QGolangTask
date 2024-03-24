@@ -10,6 +10,11 @@ type PostRequest struct {
 	Content string `json:"content"`
 }
 
+type AllPost struct {
+	Slug string `json:"slug"`
+	Data string `json:"data"`
+}
+
 func (pr PostRequest) Validate() error {
 
 	return validation.ValidateStruct(
