@@ -22,5 +22,6 @@ func ConfigureRoutes(server *s.Server) {
 	// posts
 	server.Echo.POST("/post/:slug/create/", postHandler.CreatePost, middlewares.AuthMiddleware)
 	server.Echo.PUT("/post/:slug/update/", postHandler.UpdatePost, middlewares.AuthMiddleware)
+	server.Echo.GET("/post/:slug/", postHandler.GetPostBySlug, middlewares.AuthMiddleware)
 	server.Echo.GET("/post/", postHandler.GetAllPosts, middlewares.AuthMiddleware)
 }

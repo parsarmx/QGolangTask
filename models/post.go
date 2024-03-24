@@ -10,6 +10,12 @@ type PostRequest struct {
 	Content string `json:"content"`
 }
 
+type Post struct {
+	Slug    string `json:"slug"`
+	Title   string `json:"title"`
+	Content string `json:"content"`
+}
+
 type AllPost struct {
 	Key  string `json:"key"`
 	Data string `json:"data"`
