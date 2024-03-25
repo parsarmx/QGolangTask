@@ -10,6 +10,7 @@ type RedisConfig struct {
 }
 
 func LoadRedisConfig() RedisConfig {
+
 	return RedisConfig{
 		Addr:     os.Getenv("REDIS_ADDR"),
 		Password: os.Getenv("REDIS_PASSWORD"),

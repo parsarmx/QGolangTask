@@ -29,11 +29,14 @@ func InitDB(cfg *configs.Config) *gorm.DB {
 }
 
 func InitRedis(cfg *configs.Config) *redis.Client {
+
 	client := redis.NewClient(&redis.Options{
 		Addr:     cfg.Redis.Addr,
 		Password: cfg.Redis.Password,
 		DB:       0,
 	})
+
+	fmt.Println(client.Options().Addr)
 
 	// check if redis connected or not, it should print 'redis: PONG'
 	pong, err := client.Ping(context.Background()).Result()
