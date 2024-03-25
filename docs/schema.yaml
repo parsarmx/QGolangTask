@@ -1,0 +1,34 @@
+swagger: "2.0"
+info:
+  description: "Footbalia API Documentation; It's WIP"
+  version: "0.0.0"
+  title: "Footballiha"
+host: footballiha.glss.ir
+basePath: /api/V0.0.0
+securityDefinitions:
+  ApiKeyAuth:
+    type: apiKey
+    in: header
+    name: access
+tags:
+  - name: "AUTH"
+    description: "Authentication"
+schemes:
+  - "https"
+  - "http"
+paths:
+  # AUTH
+  /login/:
+    $ref: "./auth/login.yaml"
+  /register/:
+    $ref: "./auth/register.yaml"
+
+  #POSTS
+  /post/:
+    $ref: "./posts/get_all_posts.yaml"
+  /post/{slug}/:
+    $ref: "./posts/get_post.yaml"
+  /post/{slug}/create/:
+    $ref: "./posts/create_post.yaml"
+  /post/{slug}/update/:
+    $ref: "./posts/update_post.yaml"

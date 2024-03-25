@@ -1,0 +1,27 @@
+put:
+  tags:
+    - "POSTS"
+  summary: "update post"
+  description: "update post"
+  operationId: "updatePost"
+  consumes:
+    - "application/json"
+  produces:
+    - "application/json"
+  parameters:
+    - name: "slug"
+      in: "path"
+      description: "post's slug"
+      required: true
+    - in: "body"
+      name: "body"
+      required: true
+      schema:
+        $ref: "./definitions.yaml#/UpdatePost"
+
+  responses:
+    201:
+      description: "successful operation"
+
+    400:
+      description: "Bad Request"

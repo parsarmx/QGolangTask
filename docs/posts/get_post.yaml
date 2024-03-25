@@ -1,0 +1,24 @@
+get:
+  tags:
+    - "POSTS"
+  summary: "get post"
+  description: "get post"
+  operationId: "getPost"
+  consumes:
+    - "application/json"
+  produces:
+    - "application/json"
+  parameters:
+    - name: "slug"
+      in: "path"
+      description: "post's slug"
+      required: true
+
+  responses:
+    200:
+      description: "successful operation"
+      schema:
+        $ref: "./definitions.yaml#/Post"
+
+    400:
+      description: "Bad Request"

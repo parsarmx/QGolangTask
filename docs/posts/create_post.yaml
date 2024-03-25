@@ -1,0 +1,27 @@
+post:
+  tags:
+    - "POSTS"
+  summary: "create post"
+  description: "create post"
+  operationId: "creatPost"
+  consumes:
+    - "application/json"
+  produces:
+    - "application/json"
+  parameters:
+    - name: "slug"
+      in: "path"
+      description: "post's slug"
+      required: true
+    - in: "body"
+      name: "body"
+      required: true
+      schema:
+        $ref: "./definitions.yaml#/CreatePost"
+
+  responses:
+    201:
+      description: "successful operation"
+
+    400:
+      description: "Bad Request"

@@ -1,0 +1,196 @@
+swagger: '2.0'
+info:
+  description: Footbalia API Documentation; It's WIP
+  version: 0.0.0
+  title: Footballiha
+host: footballiha.glss.ir
+basePath: /api/V0.0.0
+securityDefinitions:
+  ApiKeyAuth:
+    type: apiKey
+    in: header
+    name: access
+tags:
+  - name: AUTH
+    description: Authentication
+schemes:
+  - https
+  - http
+paths:
+  /login/:
+    post:
+      tags:
+        - AUTH
+      summary: Login
+      description: login user
+      operationId: login
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+              password:
+                type: string
+      responses:
+        '201':
+          description: successful operation
+          schema:
+            type: object
+            properties:
+              access_token:
+                type: string
+              refresh_token:
+                type: string
+              status:
+                type: string
+        '400':
+          description: Bad Request
+  /register/:
+    post:
+      tags:
+        - AUTH
+      summary: Register
+      description: regiser user
+      operationId: register
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/paths/~1login~1/post/parameters/0/schema'
+      responses:
+        '201':
+          description: successful operation
+          schema:
+            $ref: '#/paths/~1login~1/post/responses/201/schema'
+        '400':
+          description: Bad Request
+  /post/:
+    get:
+      tags:
+        - POSTS
+      summary: get all posts
+      description: get all posts
+      operationId: allPosts
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                key:
+                  type: string
+                data:
+                  $ref: '#/paths/~1post~1%7Bslug%7D~1/get/responses/200/schema'
+        '400':
+          description: Bad Request
+  '/post/{slug}/':
+    get:
+      tags:
+        - POSTS
+      summary: get post
+      description: get post
+      operationId: getPost
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: slug
+          in: path
+          description: post's slug
+          required: true
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: object
+            properties:
+              slug:
+                type: string
+              title:
+                type: string
+              content:
+                type: string
+        '400':
+          description: Bad Request
+  '/post/{slug}/create/':
+    post:
+      tags:
+        - POSTS
+      summary: create post
+      description: create post
+      operationId: creatPost
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: slug
+          in: path
+          description: post's slug
+          required: true
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+              content:
+                type: string
+      responses:
+        '201':
+          description: successful operation
+        '400':
+          description: Bad Request
+  '/post/{slug}/update/':
+    put:
+      tags:
+        - POSTS
+      summary: update post
+      description: update post
+      operationId: updatePost
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: slug
+          in: path
+          description: post's slug
+          required: true
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+              content:
+                type: string
+      responses:
+        '201':
+          description: successful operation
+        '400':
+          description: Bad Request

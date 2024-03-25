@@ -1,0 +1,35 @@
+Data:
+  type: "array"
+  items:
+    type: "object"
+    properties:
+      key:
+        type: "string"
+      data:
+        $ref: "#/Post"
+
+Post:
+  type: "object"
+  properties:
+    slug:
+      type: "string"
+    title:
+      type: "string"
+    content:
+      type: "string"
+
+CreatePost:
+  type: "object"
+  properties:
+    title:
+      type: "string"
+    content:
+      type: "string"
+
+UpdatePost:
+  type: "object"
+  properties:
+    title:
+      type: "string"
+    content:
+      type: "string"

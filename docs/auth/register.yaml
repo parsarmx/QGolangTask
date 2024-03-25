@@ -1,0 +1,24 @@
+post:
+  tags:
+    - "AUTH"
+  summary: "Register"
+  description: "regiser user"
+  operationId: "register"
+  consumes:
+    - "application/json"
+  produces:
+    - "application/json"
+  parameters:
+    - in: "body"
+      name: "body"
+      required: true
+      schema:
+        $ref: "./definitions.yaml#/DATA"
+  responses:
+    201:
+      description: "successful operation"
+      schema:
+        $ref: "./definitions.yaml#/Verify"
+
+    400:
+      description: "Bad Request"
